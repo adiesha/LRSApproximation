@@ -5,6 +5,22 @@ import numpy as np
 import XSet
 
 
+class Node():
+    def __init__(self, x, y, z):
+        self.val = 0
+        self.coord = (x, y, z)
+        self.prev = None
+
+    def setV(self, val):
+        self.val = val
+
+    def getV(self):
+        return self.val
+
+    def setP(self, x, y, z):
+        self.prev = (x, y, z)
+
+
 class LRSApp():
     def __init__(self, s, b=None):
         self.s = s
@@ -82,28 +98,40 @@ class LRSApp():
         if self.length < self.b:
             raise Exception('Not enough string length to divide into ' + str(self.b) + ' blocks')
         else:
-            self.DP = np.full((self.b, len(self.tuples), self.l), 0)
+            self.Backtrack = np.full((self.b + 1, len(self.tuples), self.l), None)
+            for i in range(self.b + 1):
+                for j in range(len(self.tuples)):
+                    for k in range(self.l):
+                        self.Backtrack[i][j][k] = Node(i, j, k)
+                        self.Backtrack[i][j][k].setV(-self.l * self.l)
+
+            self.DP = np.full((self.b + 1, len(self.tuples), self.l), 0)
             # setting base conditions
             for sigma in range(self.l):
                 self.DP[0][0][sigma] = 0
+                # set  backtrack cell value
+                self.Backtrack[0][0][sigma].setV(0)
             for f in range(1, len(self.tuples)):
                 for sigma in range(self.l):
                     # change in base condition
                     # if sigma \in F then we set DP[0][f][sigma] = 0
                     if self.alph[sigma] in self.tuples[f]:
                         self.DP[0][f][sigma] = 0
+                        self.Backtrack[0][f][sigma].setV(0)
                     else:
                         self.DP[0][f][sigma] = -(self.length * self.length)
+                        self.Backtrack[0][f][sigma].setV(-(self.length * self.length))
 
             # Filling the table
             negative_value = -self.length * self.length
-            for i in range(1, self.b):
+            for i in range(1, self.b + 1):
                 for f in range(len(self.tuples)):
                     for sigma in range(self.l):
                         sigma_character = self.alph[sigma]
                         f_set = self.tuples[f]
                         if sigma_character not in f_set:
                             self.DP[i][f][sigma] = negative_value
+                            self.Backtrack[i][f][sigma].setV(negative_value)
                         # if sigma_character is in f_set
                         else:
                             case1_value = self.DP[i - 1][f][sigma] + self.getLsigma(sigma_character, i)
@@ -112,10 +140,12 @@ class LRSApp():
                             f_set_list.remove(sigma_character)
                             f_prime_tuple = tuple(f_set_list)
                             f_prime_tuple_index = self.tupletoInt[f_prime_tuple]
-
+                            # tuple to keep the track for backtracking
+                            prevcord = ()
                             # if f_set_list is empty we need to consider it as the empty set
                             if len(f_set_list) == 0:
                                 case2_value = self.DP[i - 1][0][sigma] + self.getLsigma(sigma_character, i)
+                                prevcord = (i - 1, 0, sigma)
 
                             for sigma_prime in f_set_list:
                                 sigma_prime_index = self.alphtoint[sigma_prime]
@@ -123,9 +153,18 @@ class LRSApp():
                                     sigma_character, i)
                                 if val > case2_value:
                                     case2_value = val
+                                    prevcord = (i - 1, f_prime_tuple_index, sigma_prime_index)
                             # put the max value out of the case 1 and case 2
                             max_val = max(case1_value, case2_value)
                             self.DP[i][f][sigma] = max_val
+                            if case2_value > case1_value:
+                                self.Backtrack[i][f][sigma].setV(self.getLsigma(
+                                    sigma_character, i))
+                                self.Backtrack[i][f][sigma].setP(prevcord[0], prevcord[1], prevcord[2])
+                            else:
+                                self.Backtrack[i][f][sigma].setV(self.getLsigma(
+                                    sigma_character, i))
+                                self.Backtrack[i][f][sigma].setP(i - 1, f, sigma)
 
     def createtupledatastructure(self):
         x = XSet.Xset(self.alph)
@@ -138,13 +177,27 @@ class LRSApp():
         for i in range(len(self.alph)):
             self.alphtoint[self.alph[i]] = i
 
-
     def getTheBestScore(self):
         x, y = np.unravel_index(self.DP[-1].argmax(), self.DP[-1].shape)
         max_score = self.DP[-1][x][y]
         tuple = self.tuples[x]
         last_char = self.alph[y]
-        return max_score, list(tuple), last_char
+        return max_score, list(tuple), last_char, (self.b, x, y)
+
+    def backtracksol(self, x, y, z):
+        '''When given the maximum score index backtracks the algorithm, print them as a stack'''
+        ''':return x block number, type of character, # of characters in the block'''
+        stack = list()
+        while x != 0:
+            stack.append((x, self.alph[z], self.Backtrack[x][y][z].getV()))
+            x, y, z = self.Backtrack[x][y][z].prev
+
+        return stack
+
+    def printStack(self, stack):
+        while len(stack) > 0:
+            print(stack.pop())
+
 
 def main():
     x = LRSApp("aaaaaaaaaaaaaaaaattttaaaaaaavaaaaaaassssssssatttttttttaaaaaaaaaaaaatttttttttttttaaaaavvvvvv")
@@ -175,6 +228,7 @@ def main():
     print(x.DP[0][0])
     print(x.DP[-1][-1])
     print(x.getTheBestScore())
+    x.backtracksol(24, 4, 3)
     pass
 
 
