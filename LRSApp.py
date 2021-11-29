@@ -2,6 +2,8 @@ import logging
 
 import numpy as np
 
+import XSet
+
 
 class LRSApp():
     def __init__(self, s, b=None):
@@ -9,12 +11,18 @@ class LRSApp():
         self.length = len(self.s)
         self.alph = None
         self.alph = self.alphabet()
+        self.alphtoint = {}
+        self.createalphtoint()
         self.l = len(self.alph)
         self.b = b if b is not None else 2 * self.l * (self.l - 1)
         self.Lsigma = None
         self.createauxilaryds()
         self.blockIndices = np.full(self.b, 0)
         self.createBlockIndices()
+        self.tupletoInt = {}
+        self.inttotuple = {}
+        self.tuples = None
+        self.createtupledatastructure()
 
     def alphabet(self):
         return self.alph if self.alph is not None else sorted(list(set(self.s)))
@@ -65,14 +73,70 @@ class LRSApp():
         if blockNumber > 1:
             i = self.blockIndices[blockNumber - 2] + 1
         j = self.blockIndices[blockNumber - 1]
-        print(i, j)
+
         cs = self.numberofcharactersinarange(c, i, j)
-        print(cs)
+
         return cs
 
     def runDPforLMSApp(self):
         if self.length < self.b:
             raise Exception('Not enough string length to divide into ' + str(self.b) + ' blocks')
+        else:
+            self.DP = np.full((self.b, len(self.tuples), self.l), 0)
+            # setting base conditions
+            for sigma in range(self.l):
+                self.DP[0][0][sigma] = 0
+            for f in range(1, len(self.tuples)):
+                for sigma in range(self.l):
+                    # change in base condition
+                    # if sigma \in F then we set DP[0][f][sigma] = 0
+                    if self.alph[sigma] in self.tuples[f]:
+                        self.DP[0][f][sigma] = 0
+                    else:
+                        self.DP[0][f][sigma] = -(self.length * self.length)
+
+            # Filling the table
+            negative_value = -self.length * self.length
+            for i in range(1, self.b):
+                for f in range(len(self.tuples)):
+                    for sigma in range(self.l):
+                        sigma_character = self.alph[sigma]
+                        f_set = self.tuples[f]
+                        if sigma_character not in f_set:
+                            self.DP[i][f][sigma] = negative_value
+                        # if sigma_character is in f_set
+                        else:
+                            case1_value = self.DP[i - 1][f][sigma] + self.getLsigma(sigma_character, i)
+                            case2_value = negative_value
+                            f_set_list = list(f_set)
+                            f_set_list.remove(sigma_character)
+                            f_prime_tuple = tuple(f_set_list)
+                            f_prime_tuple_index = self.tupletoInt[f_prime_tuple]
+
+                            # if f_set_list is empty we need to consider it as the empty set
+                            if len(f_set_list) == 0:
+                                case2_value = self.DP[i - 1][0][sigma] + self.getLsigma(sigma_character, i)
+
+                            for sigma_prime in f_set_list:
+                                sigma_prime_index = self.alphtoint[sigma_prime]
+                                val = self.DP[i - 1][f_prime_tuple_index][sigma_prime_index] + self.getLsigma(
+                                    sigma_character, i)
+                                if val > case2_value:
+                                    case2_value = val
+                            # put the max value out of the case 1 and case 2
+                            max_val = max(case1_value, case2_value)
+                            self.DP[i][f][sigma] = max_val
+
+    def createtupledatastructure(self):
+        x = XSet.Xset(self.alph)
+        self.tuples = x.powersetWithEmptySet()
+        for i in range(len(self.tuples)):
+            self.tupletoInt[self.tuples[i]] = i
+            self.inttotuple[i] = self.tuples[i]
+
+    def createalphtoint(self):
+        for i in range(len(self.alph)):
+            self.alphtoint[self.alph[i]] = i
 
 
 def main():
@@ -99,6 +163,10 @@ def main():
     x.getLsigma('a', 5)
     x.getLsigma('a', 6)
     x.runDPforLMSApp()
+    print(x.inttotuple)
+    print(x.tupletoInt)
+    print(x.DP[0][0])
+    print(x.DP[-1][-1])
     pass
 
 

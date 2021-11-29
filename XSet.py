@@ -20,7 +20,7 @@ class Xset:
 
     def powersetWithEmptySet(self):
         s = list(self.items)
-        return list(chain.from_iterable(combinations(s, r) for r in range(len(s) + 1)))
+        return sorted(list(chain.from_iterable(combinations(s, r) for r in range(len(s) + 1))))
 
     def __eq__(self, other):
         return len(self.items) == len(other.items) and all(item in other.items for item in self.items)
