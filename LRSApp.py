@@ -139,6 +139,13 @@ class LRSApp():
             self.alphtoint[self.alph[i]] = i
 
 
+    def getTheBestScore(self):
+        x, y = np.unravel_index(self.DP[-1].argmax(), self.DP[-1].shape)
+        max_score = self.DP[-1][x][y]
+        tuple = self.tuples[x]
+        last_char = self.alph[y]
+        return max_score, list(tuple), last_char
+
 def main():
     x = LRSApp("aaaaaaaaaaaaaaaaattttaaaaaaavaaaaaaassssssssatttttttttaaaaaaaaaaaaatttttttttttttaaaaavvvvvv")
     print("Number of blocks " + str(x.b))
@@ -167,6 +174,7 @@ def main():
     print(x.tupletoInt)
     print(x.DP[0][0])
     print(x.DP[-1][-1])
+    print(x.getTheBestScore())
     pass
 
 
