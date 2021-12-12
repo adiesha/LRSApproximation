@@ -39,6 +39,7 @@ class LRSApp():
         self.inttotuple = {}
         self.tuples = None
         self.createtupledatastructure()
+        self.INFINITY_CONST = 1000000
 
     def alphabet(self):
         return self.alph if self.alph is not None else sorted(list(set(self.s)))
@@ -119,11 +120,11 @@ class LRSApp():
                         self.DP[0][f][sigma] = 0
                         self.Backtrack[0][f][sigma].setV(0)
                     else:
-                        self.DP[0][f][sigma] = -(self.length * self.length)
+                        self.DP[0][f][sigma] = -(self.INFINITY_CONST)
                         self.Backtrack[0][f][sigma].setV(-(self.length * self.length))
 
             # Filling the table
-            negative_value = -self.length * self.length
+            negative_value = -(self.INFINITY_CONST)
             for i in range(1, self.b + 1):
                 for f in range(len(self.tuples)):
                     for sigma in range(self.l):
@@ -228,7 +229,8 @@ def main():
     print(x.DP[0][0])
     print(x.DP[-1][-1])
     print(x.getTheBestScore())
-    x.backtracksol(24, 4, 3)
+    st = x.backtracksol(24, 4, 3)
+    x.printStack(st)
     pass
 
 
