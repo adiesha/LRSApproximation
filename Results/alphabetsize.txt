@@ -1,0 +1,36 @@
+Input size: 2500
+Alphabet size: 2
+App score: 1419
+Elapsed time: 0.0031 seconds
+Input size: 2500
+Alphabet size: 3
+App score: 1114
+Elapsed time: 0.0058 seconds
+Input size: 2500
+Alphabet size: 4
+App score: 707
+Elapsed time: 0.0174 seconds
+Input size: 2500
+Alphabet size: 5
+App score: 712
+Elapsed time: 0.0615 seconds
+Input size: 2500
+Alphabet size: 6
+App score: 687
+Elapsed time: 0.2203 seconds
+Input size: 2500
+Alphabet size: 7
+App score: 684
+Elapsed time: 0.7597 seconds
+Input size: 2500
+Alphabet size: 8
+App score: 691
+Elapsed time: 2.5401 seconds
+Input size: 2500
+Alphabet size: 9
+App score: 688
+Elapsed time: 7.7893 seconds
+Input size: 2500
+Alphabet size: 10
+App score: 682
+Elapsed time: 22.7171 seconds

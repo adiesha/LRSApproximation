@@ -1,0 +1,45 @@
+Input size: 1000
+App score: 292
+Elapsed time: 0.0149 seconds
+Input size: 10000
+App score: 2626
+Elapsed time: 0.0300 seconds
+Input size: 30000
+App score: 7821
+Elapsed time: 0.0679 seconds
+Input size: 50000
+App score: 12847
+Elapsed time: 0.1053 seconds
+Input size: 100000
+App score: 25469
+Elapsed time: 0.2039 seconds
+Input size: 200000
+App score: 50737
+Elapsed time: 0.3929 seconds
+Input size: 300000
+App score: 75675
+Elapsed time: 0.5874 seconds
+Input size: 500000
+App score: 126104
+Elapsed time: 0.9748 seconds
+Input size: 750000
+App score: 189123
+Elapsed time: 1.4765 seconds
+Input size: 1000000
+App score: 251538
+Elapsed time: 1.9267 seconds
+Input size: 2000000
+App score: 501814
+Elapsed time: 3.8560 seconds
+Input size: 3000000
+App score: 752986
+Elapsed time: 5.8895 seconds
+Input size: 5000000
+App score: 1254141
+Elapsed time: 9.5693 seconds
+Input size: 10000000
+App score: 2503349
+Elapsed time: 19.1270 seconds
+Input size: 15083333
+App score: 3757627
+Elapsed time: 34.7047 seconds
