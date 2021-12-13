@@ -1,45 +1,65 @@
+Google colab result
 Input size: 1000
+Alphabet size: 4
 App score: 292
-Elapsed time: 0.0149 seconds
+Elapsed time: 0.0244 seconds
 Input size: 10000
+Alphabet size: 4
 App score: 2626
-Elapsed time: 0.0300 seconds
+Elapsed time: 0.0548 seconds
 Input size: 30000
+Alphabet size: 4
 App score: 7821
-Elapsed time: 0.0679 seconds
+Elapsed time: 0.1009 seconds
 Input size: 50000
+Alphabet size: 4
 App score: 12847
-Elapsed time: 0.1053 seconds
+Elapsed time: 0.1549 seconds
 Input size: 100000
+Alphabet size: 4
 App score: 25469
-Elapsed time: 0.2039 seconds
+Elapsed time: 0.2822 seconds
 Input size: 200000
+Alphabet size: 4
 App score: 50737
-Elapsed time: 0.3929 seconds
+Elapsed time: 0.6084 seconds
 Input size: 300000
+Alphabet size: 4
 App score: 75675
-Elapsed time: 0.5874 seconds
+Elapsed time: 0.8017 seconds
 Input size: 500000
+Alphabet size: 4
 App score: 126104
-Elapsed time: 0.9748 seconds
+Elapsed time: 1.3412 seconds
 Input size: 750000
+Alphabet size: 4
 App score: 189123
-Elapsed time: 1.4765 seconds
+Elapsed time: 2.0103 seconds
 Input size: 1000000
+Alphabet size: 4
 App score: 251538
-Elapsed time: 1.9267 seconds
+Elapsed time: 2.6837 seconds
 Input size: 2000000
+Alphabet size: 4
 App score: 501814
-Elapsed time: 3.8560 seconds
+Elapsed time: 5.2963 seconds
 Input size: 3000000
+Alphabet size: 4
 App score: 752986
-Elapsed time: 5.8895 seconds
+Elapsed time: 7.9576 seconds
 Input size: 5000000
+Alphabet size: 4
 App score: 1254141
-Elapsed time: 9.5693 seconds
+Elapsed time: 13.3560 seconds
 Input size: 10000000
+Alphabet size: 4
 App score: 2503349
-Elapsed time: 19.1270 seconds
-Input size: 15083333
-App score: 3757627
-Elapsed time: 34.7047 seconds
+Elapsed time: 26.6676 seconds
+Input size: 15000000
+Alphabet size: 4
+App score: 3755399
+Elapsed time: 38.0858 seconds
+Input size: 194367427
+Alphabet size: 4
+App score: 48617461
+Elapsed time: 496.6394 seconds
